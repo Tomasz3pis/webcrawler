@@ -2,14 +2,13 @@ package utils
 
 import (
 	"fmt"
-	"log"
 	"net/url"
 	"strings"
 
 	"golang.org/x/net/html"
 )
 
-func normalizeURL(rawURL string) (string, error) {
+func NormalizeURL(rawURL string) (string, error) {
 	parsedURL, err := url.Parse(rawURL)
 	if err != nil {
 		return "", fmt.Errorf("couldn't parse URL: %w", err)
@@ -24,12 +23,7 @@ func normalizeURL(rawURL string) (string, error) {
 	return fullPath, nil
 }
 
-func GetURLsFromHTML(htmlBody, rawBaseURL string) ([]string, error) {
-	baseURL, err := url.Parse(rawBaseURL)
-	if err != nil {
-		return nil, fmt.Errorf("couldn't parse base URL: %v", err)
-	}
-
+func GetURLsFromHTML(htmlBody string, baseURL url.URL) ([]string, error) {
 	htmlReader := strings.NewReader(htmlBody)
 	doc, err := html.Parse(htmlReader)
 	if err != nil {
